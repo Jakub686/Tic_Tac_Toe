@@ -16,14 +16,21 @@ public class Main {
         showGrid(grid);
         boolean xOrO = true;
 
-
         do {
             System.out.print("Enter the coordinates: ");
             Scanner scanner = new Scanner(System.in);
             input = scanner.nextLine();
             int row = Character.getNumericValue(input.charAt(0));
             int column = Character.getNumericValue(input.charAt(2));
-            if (grid[row][column] == 'X'){
+            if(!(row > 0 & row < 9 | column > 0 & column < 9)){
+                System.out.println("You should enter numbers!");
+                continue;
+            }
+            if(row > 3 & row < 9 | column > 3 & column < 9){
+                System.out.println("Coordinates should be from 1 to 3!");
+                continue;
+            }
+            if (grid[row-1][column-1] == 'X' | grid[row-1][column-1] == 'O'){
                 System.out.println("This cell is occupied! Choose another one!");
                 continue;
             }
@@ -52,43 +59,43 @@ public class Main {
 
     static boolean endCondition(char[][] grid) {
         boolean result = true;
+        boolean Xwins = false;
+        boolean Owins = false;
+        // X wins
+        if (grid[0][0] == 'X' & grid[0][1] == 'X' & grid[0][2] == 'X' | // poziom 1
+                grid[1][0] == 'X' & grid[1][1] == 'X' & grid[1][2] == 'X' | // poziom 2
+                grid[2][0] == 'X' & grid[2][1] == 'X' & grid[2][2] == 'X' | // poziom 3
+                grid[0][0] == 'X' & grid[1][0] == 'X' & grid[2][0] == 'X' | // kolumna 1
+                grid[0][1] == 'X' & grid[1][1] == 'X' & grid[2][1] == 'X' | // kolumna 2
+                grid[0][2] == 'X' & grid[1][2] == 'X' & grid[2][2] == 'X' | // kolumna 3
+                grid[0][0] == 'X' & grid[1][1] == 'X' & grid[2][2] == 'X' | // skos 1
+                grid[0][2] == 'X' & grid[1][1] == 'X' & grid[2][0] == 'X') // skos 2
+        {
+            result = false;
+            Xwins = true;
+            System.out.println("X wins");
+        }
+        // O wins
+        if (grid[0][0] == 'O' & grid[0][1] == 'O' & grid[0][2] == 'O' | // poziom 1
+                grid[1][0] == 'O' & grid[1][1] == 'O' & grid[1][2] == 'O' | // poziom 2
+                grid[2][0] == 'O' & grid[2][1] == 'O' & grid[2][2] == 'O' | // poziom 3
+                grid[0][0] == 'O' & grid[1][0] == 'O' & grid[2][0] == 'O' | // kolumna 1
+                grid[0][1] == 'O' & grid[1][1] == 'O' & grid[2][1] == 'O' | // kolumna 2
+                grid[0][2] == 'O' & grid[1][2] == 'O' & grid[2][2] == 'O' | // kolumna 3
+                grid[0][0] == 'O' & grid[1][1] == 'O' & grid[2][2] == 'O' | // skos 1
+                grid[0][2] == 'O' & grid[1][1] == 'O' & grid[2][0] == 'O') // skos 2
+        {
+            result = false;
+            Owins = true;
+            System.out.println("O wins");
+        }
         // full grid with no winner = Draw
         if (grid[0][0] != ' ' & grid[0][1] != ' ' & grid[0][2] != ' '
                 & grid[1][0] != ' ' & grid[1][1] != ' ' & grid[1][2] != ' '
-                & grid[2][0] != ' ' & grid[2][1] != ' ' & grid[2][2] != ' ') {
+                & grid[2][0] != ' ' & grid[2][1] != ' ' & grid[2][2] != ' ' & Xwins == false & Owins == false) {
             result = false;
             System.out.println("Draw");
         }
-        // X wins
-        if (grid[0][0] == 'X' & grid[0][1] == 'X' & grid[0][2] == 'X' |
-                grid[1][0] == 'X' & grid[1][1] == 'X' & grid[1][2] == 'X' |
-                grid[2][0] == 'X' & grid[2][1] == 'X' & grid[2][2] == 'X' |
-                grid[0][0] == 'X' & grid[1][0] == 'X' & grid[2][0] == 'X' |
-                grid[0][1] == 'X' & grid[1][1] == 'X' & grid[2][1] == 'X' |
-                grid[0][2] == 'X' & grid[1][2] == 'X' & grid[2][2] == 'X') {
-            result = false;
-            System.out.println("X wins");
-        }
-
-        // O wins
-        if (grid[0][0] == 'O' & grid[0][1] == 'O' & grid[0][2] == 'O' |
-                grid[1][0] == 'O' & grid[1][1] == 'O' & grid[1][2] == 'O' |
-                grid[2][0] == 'O' & grid[2][1] == 'O' & grid[2][2] == 'O' |
-                grid[0][0] == 'O' & grid[1][0] == 'O' & grid[2][0] == 'O' |
-                grid[0][1] == 'O' & grid[1][1] == 'O' & grid[2][1] == 'O' |
-                grid[0][2] == 'O' & grid[1][2] == 'O' & grid[2][2] == 'O') {
-            result = false;
-            System.out.println("O wins");
-        }
-
         return result;
     }
-
-//    static boolean cellOccupied(char[][] grid, int row, int column){
-//        if (grid[row][column] != ' ') {
-//        }
-//
-//
-//        return false;
-//    }
 }
